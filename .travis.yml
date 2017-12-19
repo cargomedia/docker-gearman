@@ -15,21 +15,13 @@ install:
 
 script:
   - docker build -t cargomedia/gearman:latest .
-  - echo $(docker run cargomedia/gearman --version)
-  - echo $(docker run cargomedia/gearman --version | perl -pe 's/.*gearmand ([\d\.]+).*/$1/')
-  - FOO=$(docker run cargomedia/gearman --version | perl -pe 's/.*gearmand ([\d\.]+).*/$1/') && echo $FOO
-  - export FOO=$(docker run cargomedia/gearman --version | perl -pe 's/.*gearmand ([\d\.]+).*/$1/') && echo $FOO
-  - echo $FOO
-  - echo ${FOO}
-  - echo $VERSION
-  - echo $(docker run cargomedia/gearman --version)
 
 deploy:
   provider: script
   skip_cleanup: true
   script:
     docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD" &&
-    export VERSION=$(docker run cargomedia/gearman --version | sed -n 's/.*gearmand \([0-9\.]\+\).*/\1/p') &&
+    VERSION=$(docker run cargomedia/gearman --version | perl -pe 's/.*gearmand ([\d\.]+).*/$1/') &&
     docker tag cargomedia/gearman:latest cargomedia/gearman:${VERSION} &&
     docker push cargomedia/gearman:latest &&
     docker push cargomedia/gearman:${VERSION}
