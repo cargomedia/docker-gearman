@@ -21,7 +21,7 @@ deploy:
   skip_cleanup: true
   script: |
     docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD" &&\
-    VERSION=$(docker run cargomedia/gearman --version | sed -n 's/.*gearmand \([0-9\.]\+\).*/\1/p') &&\
+    export VERSION=$(docker run cargomedia/gearman --version | sed -n 's/.*gearmand \([0-9\.]\+\).*/\1/p') &&\
     docker tag cargomedia/gearman:latest cargomedia/gearman:${VERSION} &&\
     docker push cargomedia/gearman:${VERSION}
   on:
