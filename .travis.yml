@@ -17,7 +17,8 @@ script:
   - docker build -t cargomedia/gearman:latest .
   - echo $(docker run cargomedia/gearman --version)
   - echo $(docker run cargomedia/gearman --version | perl -pe 's/.*gearmand ([\d\.]+).*/$1/')
-  - echo $(docker run cargomedia/gearman --version | perl -pe "s/.*gearmand ([\d\.]+).*/$1/")
+  - FOO=$(docker run cargomedia/gearman --version | perl -pe 's/.*gearmand ([\d\.]+).*/$1/') && echo $FOO
+  - export FOO=$(docker run cargomedia/gearman --version | perl -pe 's/.*gearmand ([\d\.]+).*/$1/') && echo $FOO
   - echo $VERSION
   - echo $(docker run cargomedia/gearman --version)
 
