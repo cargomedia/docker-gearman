@@ -15,11 +15,15 @@ install:
 
 script:
   - docker build -t cargomedia/gearman:latest .
-  - ./docker-push.sh
 
 deploy:
   provider: script
   skip_cleanup: true
-  script: ./docker-push.sh
+  script:
+    docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD" &&
+    VERSION=$(docker run cargomedia/gearman --version | perl -0pe 's/.*gearmand ([\d\.]+).*/$1/s') &&
+    docker tag cargomedia/gearman:latest cargomedia/gearman:${VERSION} &&
+    docker push cargomedia/gearman:latest &&
+    docker push cargomedia/gearman:${VERSION}
   on:
     branch: master
