@@ -15,6 +15,7 @@ install:
 
 script:
   - docker build -t cargomedia/gearman:latest .
+  - ./docker-push.sh
 
 deploy:
   provider: script
