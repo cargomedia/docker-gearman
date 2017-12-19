@@ -9,10 +9,9 @@ env:
     - secure: HDWIh0B5B8jM/8H27xYYplIS3mpsSjeeLwdrlml1o9kpWvFXWYGWPRPFCLbyFNUyOtfQk73QVoRHTpUZFM71WO1tJbkGKtwcLuJtNX8UFWquwKrPiBt1REEb092cutTyz0pgFDsJ+Qyv1sTZHKQt6q/C6l+s48kbdb1NyDKFAGoukBliy6piW4BgyQ58R1Sk3z0nb5OB6y1tQiShFMt67I39TMIrbgW97jGzVMdS6OPJYFSwZUxHBsIYxBE2bgkUVP1RlTw7K+Ylk3BaM4t66FpvKJEEk/pur17D8Tz0B5wdUTNhzTZE4fLGbjjMvfFtjSx1ofLtvm2sYFqStV5u/PpYI6GuU5xpHM4UHhY0Zm3y3ZitKTKPZVN6bue2qzuiNxbKrw6S3Za/mbYFBI7b1I/m5w5F1aPNOWEDjGp1PKl9F8SJcxZIa7y2MpE7vxpTOh6i54HjcGp+0pyaSdZfoKFuEV+7SSd4CT4S3FZssX5/OU35dd9anDnmaFVRsyvP5PYDkEZidpdYsG62B0u38YgaVvABilt4M7rVBoQUHIxTcltZ6toy9rNSIwZ2y9NwHVjwnSUQixNCem3+A8jqLYPAgkAaBogKNbuu99Z0qA/1w9CX3RRgL8GlgcO5IsGfMOcy5FmPQIoG64Z3bFUSrACFgMGxn79N20d7pOyJM8w=
 
 install:
-  echo "foo1" &&
-  export FOO="bar" &&
-  echo "foo2" &&
-  echo $FOO
+  - sudo apt-get update
+  - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
+  - docker --version
 
 script:
   - docker build -t cargomedia/gearman:latest .
@@ -21,10 +20,10 @@ deploy:
   provider: script
   skip_cleanup: true
   script:
-    docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD" &&\
-    export VERSION=$(docker run cargomedia/gearman --version | sed -n 's/.*gearmand \([0-9\.]\+\).*/\1/p') &&\
-    docker tag cargomedia/gearman:latest cargomedia/gearman:${VERSION} &&\
-    docker push cargomedia/gearman:latest &&\
+    docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD" &&
+    export VERSION=$(docker run cargomedia/gearman --version | sed -n 's/.*gearmand \([0-9\.]\+\).*/\1/p') &&
+    docker tag cargomedia/gearman:latest cargomedia/gearman:${VERSION} &&
+    docker push cargomedia/gearman:latest &&
     docker push cargomedia/gearman:${VERSION}
   on:
     branch: master
