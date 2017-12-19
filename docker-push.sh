@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-docker login -u "${DOCKER_USERNAME}" -p "${DOCKER_PASSWORD}"
+#docker login -u "${DOCKER_USERNAME}" -p "${DOCKER_PASSWORD}"
 
 echo $(docker run cargomedia/gearman --version)
 
@@ -16,5 +16,5 @@ echo ${VERSION}
 echo foo:${VERSION}
 
 docker tag cargomedia/gearman:latest cargomedia/gearman:${VERSION}
-docker push cargomedia/gearman:latest
-docker push cargomedia/gearman:${VERSION}
+#docker push cargomedia/gearman:latest
+#docker push cargomedia/gearman:${VERSION}
