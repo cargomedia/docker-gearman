@@ -15,7 +15,9 @@ install:
 
 script:
   - docker build -t cargomedia/gearman:latest .
-  - export VERSION=$(docker run cargomedia/gearman --version | sed -n 's/.*gearmand \([0-9\.]\+\).*/\1/p') &&
+  - export VERSION=$(docker run cargomedia/gearman --version)
+  - export VERSION=$(docker run cargomedia/gearman --version | perl -pe 's/.*gearmand ([\d\.]+).*/$1/')
+  - export VERSION=$(docker run cargomedia/gearman --version | perl -pe "s/.*gearmand ([\d\.]+).*/$1/")
   - echo $VERSION
   - echo $(docker run cargomedia/gearman --version)
 
