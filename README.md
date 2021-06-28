@@ -1,8 +1,10 @@
 docker-gearman
 ==============
-Docker image for [Gearman Job Server](http://gearman.org/).
+UNMAINTAINED
 
-[![Build Status](https://img.shields.io/travis/cargomedia/docker-gearman/master.svg)](https://travis-ci.org/cargomedia/docker-gearman)
+This project has been discontinued. We're suggesting to use [artefactual-dockergearmand](https://github.com/artefactual-labs/docker-gearmand) instead.
+
+Docker image for [Gearman Job Server](http://gearman.org/).
 
 Usage
 -----
